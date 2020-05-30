@@ -39,7 +39,6 @@
                 lat: 36.841365671,
                 zoom: 16
             });
-
         },
         methods: {
             drawLine() {
@@ -122,12 +121,10 @@
         margin: 0;
         padding: 0;
     }
-
     body {
         width: 100%;
         height: 100%;
     }
-
     .m1 {
         width: 300px;
         height: 360px;
@@ -140,7 +137,6 @@
         top: 50px;
         z-index: 2;
     }
-
     .m2 {
         width: 300px;
         height: 360px;

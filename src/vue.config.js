@@ -20,6 +20,7 @@ module.exports = {
         }
     },
     chainWebpack: config => {
+        config.resolve.symlinks(true);
         config.module
             .rule('swf')
             .test(/\.swf$/)

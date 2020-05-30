@@ -88,15 +88,14 @@
         <div class="downbtn btn" @click="bottom = false" v-if="bottom">
             ︾
         </div>
-        <div class="upbtn btn" @click="bottom = true" v-if="!bottom">
+        <div class="upbtn btn" @click="bottomup" v-if="!bottom">
             ︽
         </div>
 
         <transition name="fade2">
-            <div v-show="bottom" class="boxbottom">
+                <div v-if="bottom" class="boxbottom">
                 <swiper class="swiper" :options="swiperOption">
                     <div class="swiper-button-prev" slot="button-prev"></div>
-
                     <swiper-slide class="swiperbox">
                         <video-player class="videobox" ref="videoone"></video-player>
                     </swiper-slide>
@@ -136,8 +135,6 @@
                 </div>
             </div>
         </transition>
-
-
     </div>
 </template>
 
@@ -161,6 +158,7 @@
                 anquan:{},
                 right: true,
                 websock:null,
+                timer:null,
                 swiperOption: {
                     slidesPerView: 3,
                     spaceBetween: 30,
@@ -189,11 +187,10 @@
         },
         created() {
             this.initWebSocket();
-            console.log(this.anquan);
+            // console.log(this.anquan);
         },
-        destoryed() {
+        destroyed() {
             this.websocket.close();
-
         },
         methods: {
             initWebSocket(){
@@ -219,7 +216,7 @@
                 ws.onmessage = (event) => {
                     if (event.data != null && event.data != '' && event.data != 'ssdata') {
                         var parseData = $.parseJSON(event.data);
-                        console.log(parseData);
+                        // console.log(parseData);
                         this.anquan = parseData;
                     }
                 };
@@ -230,6 +227,12 @@
             video(){
                 this.$refs['videoone'].playerOptions.sources[0].src = 'rtmp://192.168.0.242/live/22'
                 this.$refs['videotwo'].playerOptions.sources[0].src = 'rtmp://192.168.0.242/live/57'
+            },
+            bottomup(){
+                this.bottom = true;
+                setTimeout(()=>{
+                    this.video();
+                },10)
             }
         }
     }
@@ -303,7 +306,6 @@
         right: 1%;
         top: 50%;
     }
-
     .btn {
         width: 20px;
         height: 20px;
@@ -314,13 +316,11 @@
         box-shadow: 0 0 10px #2C58A6;
         color: white;
     }
-
     .rightbtn {
         position: absolute;
         left: 3%;
         top: 50%;
     }
-
     .swiper {
         display: flex;
         align-items: center;
@@ -331,7 +331,7 @@
         position: relative;
         left: 0;
         top: 0;
-        width: 371px;
+        width: 400px;
         height: 210px;
     }
 
@@ -339,10 +339,10 @@
         position: absolute;
         left: 0;
         top: 6px;
-        width: 100%;
-        height: 100%;
+        z-index: 5;
+        width: 384px;
+        height: 210px;
     }
-
     .boxbottom {
         width: 1213px;
         height: 227px;
